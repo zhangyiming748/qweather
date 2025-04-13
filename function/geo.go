@@ -18,13 +18,13 @@ const (
 	GEO = "/geo/v2/city/lookup"
 )
 
-func GeoApi(name, host, api string) (GeoResponse, error) {
+func GeoApi(name, host, key string) (GeoResponse, error) {
 	params := map[string]string{
 		"location": name,
 	}
 	header := map[string]string{
 		"Content-Type": "application/json",
-		"X-QW-Api-Key": api,
+		"X-QW-Api-Key": key,
 	}
 	url := strings.Join([]string{constant.SCHEME, host, GEO}, "")
 	b, err := util.HttpGet(header, params, url)
