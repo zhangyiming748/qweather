@@ -2,6 +2,7 @@ package function
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 
@@ -31,6 +32,11 @@ func GeoApi(name, host, key string) (GeoResponse, error) {
 	if err != nil {
 		return GeoResponse{}, err
 	}
+	// 先尝试解析是否为错误响应
+	var errRes constant.ErrorResponse
+	if e := json.Unmarshal(b, &errRes); e == nil && errRes.Error.Status != 0 {
+		return GeoResponse{}, fmt.Errorf("API错误: %s - %s", errRes.Error.Title, errRes.Error.Detail)
+	}
 	var res GeoResponse
 	err = json.Unmarshal(b, &res)
 	if err != nil {
@@ -42,9 +48,9 @@ func GeoApi(name, host, key string) (GeoResponse, error) {
 
 // GeoResponse 地理位置信息返回结构
 type GeoResponse struct {
-	Code     string     `json:"code"`
-	Location []Location `json:"location"`
-	Refer    Refer      `json:"refer"`
+	Code     string         `json:"code"`
+	Location []Location     `json:"location"`
+	Refer    constant.Refer `json:"refer"`
 }
 
 // Location 位置详细信息
@@ -62,10 +68,4 @@ type Location struct {
 	Type      string `json:"type"`
 	Rank      string `json:"rank"`
 	FxLink    string `json:"fxLink"`
-}
-
-// Refer 引用信息
-type Refer struct {
-	Sources []string `json:"sources"`
-	License []string `json:"license"`
 }
