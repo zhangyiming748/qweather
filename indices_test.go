@@ -1,4 +1,4 @@
-package function
+package qweather
 
 import (
 	"github.com/zhangyiming748/pretty"

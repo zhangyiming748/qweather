@@ -1,4 +1,4 @@
-package function
+package qweather
 
 import (
 	"github.com/zhangyiming748/pretty"
@@ -10,6 +10,7 @@ import (
 func init() {
 	log.SetFlags(2 | 16)
 }
+
 func TestNow(t *testing.T) {
 	if rep, err := NowApi("101011000", constant.HOST, constant.APIKEY); err != nil {
 		t.Error(err)

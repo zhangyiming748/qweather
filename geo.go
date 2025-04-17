@@ -1,4 +1,4 @@
-package function
+package qweather
 
 import (
 	"encoding/json"
